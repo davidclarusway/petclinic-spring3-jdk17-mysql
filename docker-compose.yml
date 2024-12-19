@@ -1,7 +1,6 @@
 services:
   config-server:
     image: petclinic-config-server:dev
-    container_name: config-server
     deploy:
       resources:
         limits:
@@ -17,7 +16,6 @@ services:
 
   discovery-server:
     image: petclinic-discovery-server:dev
-    container_name: discovery-server
     deploy:
       resources:
         limits:
@@ -36,7 +34,7 @@ services:
 
   customers-service:
     image: petclinic-customers-service:dev
-    container_name: customers-service
+    restart: unless-stopped
     deploy:
       resources:
         limits:
@@ -51,7 +49,7 @@ services:
 
   visits-service:
     image: petclinic-visits-service:dev
-    container_name: visits-service
+    restart: unless-stopped
     deploy:
       resources:
         limits:
@@ -66,7 +64,7 @@ services:
 
   vets-service:
     image: petclinic-vets-service:dev
-    container_name: vets-service
+    restart: unless-stopped
     deploy:
       resources:
         limits:
@@ -81,7 +79,6 @@ services:
 
   api-gateway:
     image: petclinic-api-gateway:dev
-    container_name: api-gateway
     deploy:
       resources:
         limits:
@@ -96,7 +93,6 @@ services:
 
   tracing-server:
     image: openzipkin/zipkin
-    container_name: tracing-server
     deploy:
       resources:
         limits:
@@ -108,7 +104,6 @@ services:
 
   admin-server:
     image: petclinic-admin-server:dev
-    container_name: admin-server
     deploy:
       resources:
         limits:
@@ -125,7 +120,6 @@ services:
 
   grafana-server:
     build: ./docker/grafana
-    container_name: grafana-server
     deploy:
       resources:
         limits:
@@ -135,7 +129,6 @@ services:
 
   prometheus-server:
     build: ./docker/prometheus
-    container_name: prometheus-server
     deploy:
       resources:
         limits:
@@ -144,11 +137,10 @@ services:
     - 9091:9090
 
   mysql-server:
-    image: mysql:5.7.8
-    container_name: mysql-server
+    image: mysql:8.0.0
     environment: 
       MYSQL_ROOT_PASSWORD: petclinic
       MYSQL_DATABASE: petclinic
-    mem_limit: 256M
+    mem_limit: 512M
     ports:
     - 3306:3306
